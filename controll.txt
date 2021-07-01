@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<style type="text/css">
+
+		.bs-popup-center {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.bs-exp-senha-popup {
+			position: fixed;
+			z-index: 10001;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(255, 255, 255, 0.7);
+			backdrop-filter: blur(3px);
+		}
+
+		#bs-exp-senha-popup {
+			display: none;
+		}
+
+		.bs-exp-senha-popup .container {
+			box-shadow: 0px 0px 8px #0000000f;
+			border-radius: 10px;
+			border: 1px solid #E8E9EC;
+			z-index: 1;
+			background-color: white;
+			height: 330px;
+			width: 416px;
+		}
+
+		.bs-exp-senha-popup .container div {
+			text-align: center;
+		}
+
+		.container div.bs-popup-center {
+			height: 80%;
+			width: 80%;
+		}
+
+		.bs-func-exp-label {
+			padding: 10px;
+			font: normal normal bold 16px/22px Bradesco Sans;
+			letter-spacing: 0px;
+			color: #47484C;
+			opacity: 1;
+		}
+
+		.bs-func-exp-text {
+			padding: 12px;
+			font: normal normal normal 16px/22px Bradesco Sans;
+			letter-spacing: 0px;
+			color: #47484C;
+			opacity: 1;
+		}
+
+		.btn-exp-senha {
+			margin: 0 5px;
+			width: 39mm;
+			text-align: center;
+		};
+
+	</style>
+
+</head>
+
+<body>
+
+	<div id="bs-id-qntdiaexpiracaosenha">""</div>
+
+	<!--Apneas oque esta aqui dentro vai para o WPS-->
+
+	<div id="bs-exp-senha-popup" class="bs-exp-senha-popup">
+		<div class="container bs-popup-center">
+			<div class="bs-popup-center">
+				<div>
+					<span class="icon-alerta-atencao" style="
+					height: 55px;
+					width: 55px;
+					font-size: 55px;
+					color: #FFBC00;
+					"></span>
+
+					<p class="bs-func-exp-label">Sua senha expira em breve</p>
+					<p class="bs-func-exp-text"></p>
+
+					<button class="btn-exp-senha pn-btn pn-btn-white" type="button" onclick="popExpSenha.closePopUp()">Mais
+						Tarde</button>
+					<button class="btn-exp-senha pn-btn pn-btn-blue" type="button"
+						onclick="window.location.href='https://wwwn.dsv.bradescoseguros.com.br/sspr/private/changepassword'">Atualizar
+						agora</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	''
+
+	<script type="text/javascript">
+
+		var popExpSenha = function () {
+			var popUp = {
+				openPopUp: openPopUp,
+				closePopUp: closePopUp
+			};
+
+			function closePopUp() {
+				document.getElementById('bs-exp-senha-popup').style.display = 'none';
+			}
+
+			function openPopUp() {
+				document.getElementById('bs-exp-senha-popup').style.display = 'block';
+			}
+
+			return popUp;
+		}();
+
+		const tratarNumero = (numsStr) => {
+			var nums = numsStr.replace(/[^0-9]/g, '');
+			return parseInt(nums);
+		}
+
+		const abrirPopupBroser = () => {
+			try {
+
+				let retorno = document.getElementById('bs-id-qntdiaexpiracaosenha').innerText;
+
+				let diasExpSenha = tratarNumero(retorno);
+
+				let diaPopUpAberto = localStorage.getItem('diaPopUpAberto');
+
+				if ((diasExpSenha <= 7) && (diasExpSenha.toString() != diaPopUpAberto)) {
+
+					const docTextExp = document.querySelector('.bs-func-exp-text');
+
+					const mensagem = 'Olá! notamos que sua senha está para expirar e você tem <b>' + diasExpSenha + ' dias </b> para redefiní-la'
+
+					docTextExp.innerHTML = mensagem;
+					localStorage.setItem('diaPopUpAberto', diasExpSenha);
+
+					popExpSenha.openPopUp();
+
+				} else if ((diasExpSenha > 7) && (diaPopUpAberto != null)) {
+					localStorage.removeItem('diaPopUpAberto');
+				} 
+
+			} catch (error) {
+				console.log(error.mensagem);
+			}
+		}
+
+		window.addEventListener("load", function () {
+			abrirPopupBroser();
+		});
+
+	</script>
+
+</body>
+
+</html>

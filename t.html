@@ -1,0 +1,51 @@
+<script type="text/javascript">
+
+var popExpSenha = function () {
+    var pop = {
+        open: open,
+        close: close
+    };
+
+    function close() {
+        $(".bs-popup-exp-senha").addClass("hidden");
+    }
+
+    function open() {
+        $(".bs-popup-exp-senha").removeClass("hidden");
+    }
+
+    return pop;
+}();
+
+window.addEventListener("load", function () {
+
+    //var dias = Number($(".bs-div-exp-senha").text().trim());
+
+    let retorno = $(".bs-div-exp-senha").text().trim();
+
+    console.log(retorno);
+
+    var dias = 8;
+
+    var diaPopUpAberto = sessionStorage.getItem('diaPopUpAberto');
+
+    // 6 <= 7 && 6 != 7 
+
+    if ((dias <= 7) && (diaPopUpAberto != dias)) {
+
+        const docTextExp = document.querySelector('.bs-func-exp-text');
+
+        var text = 'Sua senha irá expirar em ' + dias + ' dia(s), por favor atualize a mesma para não ficar sem acesso';
+
+        docTextExp.innerHTML = text;
+        localStorage.setItem('diaPopUpAberto', dias);
+
+        popExpSenha.open();
+
+    } else if ((dias > 7) && (diaPopUpAberto != null)) {
+        localStorage.removeItem('diaPopUpAberto');
+    }
+});
+
+
+</script>

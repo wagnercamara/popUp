@@ -1,0 +1,58 @@
+<style type="text/css">
+
+	.bs-popup-center {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	}
+
+	.bs-popup-desc {
+		position: fixed;
+	    z-index: 10001;
+	    left: 0;
+	    top: 0;
+	    width: 100%;
+	    height: 100%;
+	    overflow: auto;
+	    background-color: rgba(255,255,255,0.7);
+	    backdrop-filter: blur(3px);
+	}
+
+	.bs-popup-desc .container {
+	    box-shadow: 0px 0px 8px #0000000f;
+	    border-radius: 10px;
+	    border: 1px solid #E8E9EC;
+	    z-index: 1;
+	    background-color: white;
+	    height: 330px;
+	    width: 416px;
+        }
+
+
+	.bs-popup-desc .container div {
+		text-align: center;
+	}
+
+       .container div.bs-popup-center {
+             height: 80%;
+             width: 80%;
+        }
+
+	.bs-func-indisponivel-label {
+		padding: 10px;
+	    font: normal normal bold 16px/22px Bradesco Sans;
+	    letter-spacing: 0px;
+	    color: #47484C;
+	    opacity: 1;
+	}
+
+	.bs-func-indisponivel-text {
+	    padding: 12px;
+	    font: normal normal normal 16px/22px Bradesco Sans;
+	    letter-spacing: 0px;
+	    color: #47484C;
+	    opacity: 1;
+	}
+	
+</style>

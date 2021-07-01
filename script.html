@@ -1,0 +1,43 @@
+<script type="text/javascript">
+
+		var popdesc = function(){
+		var pop = {
+			open: open,
+			close: close
+		};
+
+		function close() {	
+
+		const elemento = document.getElementById("elemento");
+
+		if (elemento.classList) elemento.classList.add("red");
+		else elemento.className += " red";
+
+			$(".bs-popup-desc").addClass("hidden");
+		}
+
+		function open() {
+			$(".bs-popup-desc").removeClass("hidden");
+		}
+
+		return pop;
+	}();
+
+	window.addEventListener("load", function(){
+		var descredenciado = $(".bs-div-descrendenciado").text().trim();
+
+                var abrirPopup = sessionStorage.getItem('abrirPopup');
+
+		if(descredenciado === "\"true\"" && abrirPopup != 'false') {
+
+                        sessionStorage.setItem('abrirPopup', 'false');
+
+                        document.querySelector('div.bs-div-descrendenciado').innerHTML = "false";
+			popdesc.open();
+		}
+	});
+
+
+</script>
+
+[Component name="cl_portaldenegociosnovo_cmp/cmp_descredenciado_popup/cmp_impl_descredenciado"]
