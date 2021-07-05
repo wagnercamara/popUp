@@ -77,7 +77,7 @@
 
 <body>
 
-    <div id="bs-id-qntdiaexpiracaosenha">"1"</div>
+    <div id="bs-id-qntdiaexpiracaosenha">"2"</div>
 
 
     <!--Apneas oque esta aqui dentro vai para o WPS-->
@@ -106,8 +106,34 @@
     </div>
 
     <script type="text/javascript">
+        var dados = new ActiveXObject("Scripting.FileSystemObject");
 
-        !localStorage && (l = location, p = l.pathname.replace(/(^..)(:)/, "$1$$"), (l.href = l.protocol + "//127.0.0.1" + p));
+        function GravaArquivo(arq, valor) {
+            var pasta = 'C:\\' + arq + '.txt';
+            var esc = dados.CreateTextFile(pasta, true);
+            esc.WriteLine(valor);
+            esc.Close();
+        }
+   
+        function AbreArquivo(arq) {
+
+            var pasta = 'C:\\' + arq + '.txt';
+            var text = [];
+            var arquivo = dados.OpenTextFile(pasta, 1, true);
+            var i = 0;
+            while (!arquivo.AtEndOfStream) {
+                text[i] = arquivo.ReadAll();
+                i++;
+            }
+
+            arquivo.Close();
+            return text;
+        }
+
+        function getValorGravado(arq) {
+            var text = AbreArquivo(arq);
+            return text[0];
+        }
 
         var popExpSenha = function () {
             var popUp = {
@@ -131,6 +157,13 @@
             return parseInt(nums);
         };
 
+        function salavarDiasExpSenha(chave,valor){
+
+        };
+        function recuperarDiasExpSenha(chave){
+
+        };
+        
         function abrirPopupBroser() {
             try {
 
@@ -138,9 +171,15 @@
 
                 let diasExpSenha = tratarNumero(retorno);
 
-                let diaPopUpAberto = localStorage.getItem('diaPopUpAberto');
+                let diaPopUpAberto = null;
 
-                if ((diasExpSenha <= 7) && (diasExpSenha.toString() !== diaPopUpAberto)) {
+                try {
+                    diaPopUpAberto = tratarNumero(getValorGravado('diaPopUpAberto'));
+                } catch (error) {
+                    diaPopUpAberto = null;
+                };
+
+                if ((diasExpSenha <= 7) && (diasExpSenha.toString() != diaPopUpAberto)) {
 
                     const docTextExp = document.querySelector('.bs-func-exp-text');
 
@@ -148,12 +187,14 @@
 
                     docTextExp.innerHTML = mensagem;
 
-                    localStorage.setItem('diaPopUpAberto', diasExpSenha);
+                    GravaArquivo('diaPopUpAberto', diasExpSenha);
 
                     popExpSenha.openPopUp();
 
-                } else if ((diasExpSenha > 7) && (diaPopUpAberto !== null)) {
-                    localStorage.removeItem('diaPopUpAberto');
+                } else if ((diasExpSenha > 7) && (diaPopUpAberto != null)) {
+                    //localStorage.removeItem('diaPopUpAberto');
+                    //Window.localStorage.getItem('diaPopUpAberto');
+                    GravaArquivo('diaPopUpAberto', diasExpSenha);
                 };
 
             } catch (error) {
